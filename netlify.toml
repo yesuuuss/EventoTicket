@@ -2,9 +2,15 @@
   command = "npm run build"
   publish = "dist"
 
-# Para que React SPA funcione al refrescar rutas
+# React SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  
+
+# Proxy hacia Railway
+[[redirects]]
+  from = "/api/*"
+  to = "https://backendeventoticket-production.up.railway.app/api/:splat"
+  status = 200
+  force = true
