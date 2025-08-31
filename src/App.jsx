@@ -1,70 +1,87 @@
 import { useState } from "react";
-
-const API_BASE = import.meta.env.VITE_API_URL || ""; 
+import EventCard from "./components/EventCard";
+import TicketModal from "./components/TicketModal";
+import { registerAttendee } from "./lib/api";
 
 export default function App() {
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [mensaje, setMensaje] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // Evento “Congreso el León Ruge”
+  const event = {
+    id: "congreso-leon-ruge-2025",
+    title: "Congreso el León Ruge",
+    poster: "/img/leon-ruge.jpg",   // asegúrate que existe en public/img/
+    dateLabel: "27 Sep • 19:30 hrs.",
+    venue: "Teatro Lux",
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMensaje(null);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const openBuy = (e) => {
+    setSelected(e);
+    setOpen(true);
+  };
+
+  const submit = async (form) => {
     try {
-      const res = await fetch(`${API_BASE}/api/tickets`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setMensaje("✅ Ticket enviado a tu correo.");
-        setNombre("");
-        setEmail("");
-      } else {
-        setMensaje("❌ " + (data?.error || "Error al enviar"));
-      }
-    } catch {
-      setMensaje("❌ Error de conexión con el servidor.");
+      await registerAttendee(form);
+      setToast("✅ Ticket enviado a tu correo.");
+      setOpen(false);
+    } catch (e) {
+      setToast("❌ " + (e.message || "Error al enviar"));
     } finally {
-      setLoading(false);
+      setTimeout(() => setToast(null), 4000);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded w-96 p-6">
-        <h1 className="text-2xl font-bold text-center mb-4">Registro de Tickets 🎟️</h1>
+    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
+      {/* Contenido central */}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="max-w-5xl w-full px-4 flex justify-center">
+          <EventCard event={event} onBuy={openBuy} />
+        </div>
+      </div>
 
-        <label className="block text-sm text-gray-700 mb-1">Nombre</label>
-        <input
-          className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
+      {/* Modal */}
+      <TicketModal
+        open={open}
+        event={selected}
+        onClose={() => setOpen(false)}
+        onSubmitForm={submit}
+      />
 
-        <label className="block text-sm text-gray-700 mb-1">Email</label>
-        <input
-          type="email"
-          className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      {toast && (
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 rounded-lg bg-slate-800 ring-1 ring-slate-700 px-4 py-2 text-sm">
+          {toast}
+        </div>
+      )}
 
-        <button
-          disabled={loading}
-          className="w-full py-2 rounded font-semibold text-white disabled:bg-gray-400 bg-blue-600 hover:bg-blue-700"
+      {/* Footer con íconos */}
+      <footer className="bg-slate-900 py-6 flex justify-center gap-6">
+        <a
+          href="https://www.facebook.com/share/1EwLzzVNmG/?mibextid=wwXIfr"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          {loading ? "Enviando..." : "Obtener Ticket"}
-        </button>
-
-        {mensaje && <p className="text-center text-sm mt-3">{mensaje}</p>}
-      </form>
+          <img
+            src="/icons/fb.png"
+            alt="Facebook"
+            className="w-8 h-8 hover:opacity-80 transition"
+          />
+        </a>
+        <a
+          href="https://www.instagram.com/lacasadeeliasinternacional?igsh=Z3F6NnF3YXQ4MTht"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/icons/ig.png"
+            alt="Instagram"
+            className="w-8 h-8 hover:opacity-80 transition"
+          />
+        </a>
+      </footer>
     </div>
   );
 }
