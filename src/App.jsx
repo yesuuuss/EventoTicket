@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || ""; 
+
 export default function App() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -11,16 +13,17 @@ export default function App() {
     setLoading(true);
     setMensaje(null);
     try {
-      // usa el proxy de Vite
-      const res = await fetch("/api/tickets", {
+      const res = await fetch(`${API_BASE}/api/tickets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, email }),
       });
+
       const data = await res.json();
       if (res.ok) {
         setMensaje("✅ Ticket enviado a tu correo.");
-        setNombre(""); setEmail("");
+        setNombre("");
+        setEmail("");
       } else {
         setMensaje("❌ " + (data?.error || "Error al enviar"));
       }
@@ -39,14 +42,18 @@ export default function App() {
         <label className="block text-sm text-gray-700 mb-1">Nombre</label>
         <input
           className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring"
-          value={nombre} onChange={(e)=>setNombre(e.target.value)} required
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          required
         />
 
         <label className="block text-sm text-gray-700 mb-1">Email</label>
         <input
           type="email"
           className="w-full border rounded px-3 py-2 mb-4 focus:outline-none focus:ring"
-          value={email} onChange={(e)=>setEmail(e.target.value)} required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
         />
 
         <button
