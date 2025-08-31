@@ -10,7 +10,7 @@ export default function App() {
     title: "Congreso el León Ruge",
     poster: "/img/leon-ruge.jpg",   // asegúrate que existe en public/img/
     dateLabel: "27 Sep • 19:30 hrs.",
-    venue: "Teatro Lux",
+    venue: "Iglesia La casa de Elías internacional 1-83 5ta av. colonia cotio zona 2 mixco",
   };
 
   const [open, setOpen] = useState(false);
