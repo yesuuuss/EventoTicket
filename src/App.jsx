@@ -22,18 +22,18 @@ export default function App() {
     setOpen(true);
   };
 
-  const submit = async (form) => {
-    try {
-      await registerAttendee(form);
-      setToast("✅ Ticket enviado a tu correo.");
-      setOpen(false);
-    } catch (e) {
-      setToast("❌ " + (e.message || "Error al enviar"));
-    } finally {
-      setTimeout(() => setToast(null), 4000);
-    }
-  };
-
+const submit = async (form) => {
+  try {
+    await registerAttendee(form); 
+    setToast("✅ Ticket enviado a tu correo.");
+    setOpen(false);
+  } catch (e) {
+   
+    setToast("❌ " + (e.message || "Error al enviar"));
+  } finally {
+    setTimeout(() => setToast(null), 4000); 
+  }
+};
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
       {/* Contenido central */}
