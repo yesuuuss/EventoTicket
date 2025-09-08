@@ -19,7 +19,7 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
     
     try {
       // Realizamos el POST a la API
-      const response = await fetch(`${apiUrl}/api/register`, {
+      const response = await fetch(`${apiUrl}/api/attendees`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
