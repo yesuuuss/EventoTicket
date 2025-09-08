@@ -23,17 +23,35 @@ export default function App() {
   };
 
 const submit = async (form) => {
+  
+  let payload = { ...form };
+
+  
+  if (!payload.asisteIglesia) {
+    delete payload.iglesiaNombre;
+  }
+
+ 
+  if (!payload.esEquipoCasaDeElias) {
+    delete payload.equipos;
+  }
+
+  if (payload.goesToChurch === 'no') {
+    delete payload.churchName;
+  }
+
+  
   try {
-    await registerAttendee(form); 
+    await registerAttendee(payload); 
     setToast("✅ Ticket enviado a tu correo.");
     setOpen(false);
   } catch (e) {
-   
     setToast("❌ " + (e.message || "Error al enviar"));
   } finally {
     setTimeout(() => setToast(null), 4000); 
   }
 };
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
       {/* Contenido central */}
