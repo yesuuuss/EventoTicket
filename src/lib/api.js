@@ -1,7 +1,7 @@
 const API_BASE = import.meta.env.VITE_API_URL || ""; // respeta lo que ya usas
 
 export async function registerAttendee(payload){
-  const r = await fetch(`${API_BASE}/api/tickets`, {
+  const r = await fetch(`${API_BASE}/api/attendees`, {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify(payload),
