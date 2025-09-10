@@ -22,56 +22,46 @@ export default function App() {
     setOpen(true);
   };
 
-const submit = async (form) => {
-  let payload = { ...form };
+const submit = async (data) => {
 
+  if (goesToChurch === 'si' && !data.churchName) return;
+  if (howHeard === 'otro' && !data.howHeardOther) return;
+  if (isTeam === 'si' && (!data.teamAreas || data.teamAreas.length === 0)) return;
 
-  if (payload.fullName) {
-    payload.nombre = payload.fullName; 
-    delete payload.fullName;
-  }
-
-
-  if (!payload.nombre) {
-    console.error('Falta el campo "nombre" en el payload');
-    alert('Por favor ingresa tu nombre.');
-    return;
-  }
-
-
-  if (!payload.sourceCode) {
-    console.error('Falta el campo "sourceCode" en el payload');
-    alert('Por favor selecciona cómo te enteraste del evento.');
-    payload.sourceCode = "facebook"; 
-  }
-
-
-  if (!payload.asisteIglesia) {
-    delete payload.iglesiaNombre;
-  }
-
-  if (!payload.esEquipoCasaDeElias) {
-    delete payload.equipos;
-  }
-
-  if (payload.goesToChurch === 'no') {
-    delete payload.churchName;
-  }
+  const apiUrl = import.meta.env.VITE_API_URL; 
 
   
-  console.log("Payload antes de enviar:", payload);
+  const payload = { 
+    ...data, 
+    nombre: data.fullName,  
+    sourceCode: data.howHeard || "facebook",  
+    eventId: event.id 
+  };
+
+  delete payload.fullName; 
 
   try {
-   
-    await registerAttendee(payload); 
-    setToast("✅ Ticket enviado a tu correo.");
-    setOpen(false);
-  } catch (e) {
-    setToast("❌ " + (e.message || "Error al enviar"));
-  } finally {
-    setTimeout(() => setToast(null), 4000); 
+    const response = await fetch(`${apiUrl}/api/attendees`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      alert("Registro exitoso!");
+      onSubmitForm({ ...data, eventId: event.id });
+    } else {
+      alert("Hubo un problema al enviar los datos.");
+    }
+  } catch (error) {
+    console.error("Error al enviar los datos:", error);
+    alert("Ocurrió un error al intentar registrar los datos.");
   }
 };
+
 
 
 

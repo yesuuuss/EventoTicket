@@ -73,8 +73,8 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
             <form className="grid gap-4" onSubmit={handleSubmit(submit)}>
               <div>
                 <label className="label">Nombre completo</label>
-                <input {...register('fullName', {required:true})} className="input" placeholder="Nombre y apellidos"/>
-                {errors.fullName && <p className="error">Requerido</p>}
+                <input {...register('nombre', {required:true})} className="input" placeholder="Nombre y apellidos"/>
+                {errors.nombre && <p className="error">Requerido</p>}
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
