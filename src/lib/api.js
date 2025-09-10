@@ -12,9 +12,17 @@ export async function registerAttendee(payload) {
   }
 
   // Si no se especifica un nombre para la iglesia, también eliminamos el campo 'churchName'
-  if (payload.goesToChurch === 'no') {
-    delete payload.churchName;
-  }
+ if (payload.goesToChurch === 'no') {
+  payload.goesToChurch = false;
+} else {
+  payload.goesToChurch = true;
+}
+
+if (payload.isTeam === 'no') {
+  payload.isTeam = false;
+} else {
+  payload.isTeam = true;
+}
 
   // Enviar la solicitud a la API
   const r = await fetch(`${API_BASE}/api/attendees`, {
