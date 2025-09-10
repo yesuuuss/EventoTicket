@@ -23,15 +23,17 @@ export default function App() {
   };
 
 const submit = async (form) => {
-  
   let payload = { ...form };
 
-  
+ 
+  if (!payload.sourceCode) {
+    payload.sourceCode = "facebook"; 
+  }
+
   if (!payload.asisteIglesia) {
     delete payload.iglesiaNombre;
   }
 
- 
   if (!payload.esEquipoCasaDeElias) {
     delete payload.equipos;
   }
@@ -40,7 +42,6 @@ const submit = async (form) => {
     delete payload.churchName;
   }
 
-  
   try {
     await registerAttendee(payload); 
     setToast("✅ Ticket enviado a tu correo.");
@@ -51,6 +52,7 @@ const submit = async (form) => {
     setTimeout(() => setToast(null), 4000); 
   }
 };
+
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
