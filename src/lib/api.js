@@ -1,17 +1,17 @@
-const API_BASE = import.meta.env.VITE_API_URL || ""; // respeta lo que ya usas
+const API_BASE = import.meta.env.VITE_API_URL || ""; 
 
 export async function registerAttendee(payload) {
-  // Si no asiste a iglesia, eliminamos el campo iglesiaNombre
+
   if (!payload.asisteIglesia) {
     delete payload.iglesiaNombre;
   }
 
-  // Si el usuario no está en el equipo, eliminamos el campo 'equipos'
+
   if (!payload.esEquipoCasaDeElias) {
     delete payload.equipos;
   }
 
-  // Si no se especifica un nombre para la iglesia, también eliminamos el campo 'churchName'
+  
  if (payload.goesToChurch === 'no') {
   payload.goesToChurch = false;
 } else {
@@ -24,7 +24,7 @@ if (payload.isTeam === 'no') {
   payload.isTeam = true;
 }
 
-  // Enviar la solicitud a la API
+console.log("Payload antes de enviar:", payload); 
   const r = await fetch(`${API_BASE}/api/attendees`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -33,7 +33,7 @@ if (payload.isTeam === 'no') {
 
   let data = null;
   try {
-    data = await r.json();  // Intentamos obtener la respuesta como JSON
+    data = await r.json();  
   } catch (err) {
     console.error('Error al parsear la respuesta:', err);
   }

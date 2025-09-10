@@ -9,25 +9,25 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
   const howHeard = watch('howHeard');
 
   const submit = async (data) => {
-    // Validaciones previas
+ 
     if (goesToChurch === 'si' && !data.churchName) return;
     if (howHeard === 'otro' && !data.howHeardOther) return;
     if (isTeam === 'si' && (!data.teamAreas || data.teamAreas.length === 0)) return;
 
-    // Llamada a la API de Railway
-    const apiUrl = import.meta.env.VITE_API_URL;  // URL de la API que configuraste en Netlify
+  
+    const apiUrl = import.meta.env.VITE_API_URL; 
     
     try {
-      // Realizamos el POST a la API
+    
       const response = await fetch(`${apiUrl}/api/attendees`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data, eventId: event.id }),  // Enviamos los datos con el ID del evento
+        body: JSON.stringify({ ...data, eventId: event.id }), 
       });
 
-      // Verificamos si la respuesta es exitosa
+    
       if (response.ok) {
         const responseData = await response.json();
         alert("Registro exitoso!");
@@ -44,7 +44,7 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
   if (!open) return null;
 
   return (
-    // 1) El contenedor del modal permite scroll (y hace de backdrop)
+   
     <div
       className="fixed inset-0 z-50 overflow-y-auto overscroll-contain
                  bg-black/60"

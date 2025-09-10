@@ -4,7 +4,7 @@ import TicketModal from "./components/TicketModal";
 import { registerAttendee } from "./lib/api";
 
 export default function App() {
-  // Evento “Congreso el León Ruge”
+
   const event = {
     id: "congreso-leon-ruge-2025",
     title: "Congreso el León Ruge",

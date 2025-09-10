@@ -4,7 +4,7 @@ export default function EventCard({ event, onBuy }) {
   const open = () => onBuy?.(event);
 
   return (
-    // Hacemos toda la card clicable en móvil
+
     <article
       onClick={open}
       role="button"
