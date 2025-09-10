@@ -6,12 +6,12 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
 
   const goesToChurch = watch('goesToChurch');
   const isTeam = watch('isTeam');
-  const howHeard = watch('howHeard');
+  const sourceCode = watch('sourceCode');
 
   const submit = async (data) => {
  
     if (goesToChurch === 'si' && !data.churchName) return;
-    if (howHeard === 'otro' && !data.howHeardOther) return;
+    if (sourceCode === 'otro' && !data.sourceCodeOther) return;
     if (isTeam === 'si' && (!data.teamAreas || data.teamAreas.length === 0)) return;
 
   
@@ -110,7 +110,7 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="label">¿Cómo te enteraste del evento?</label>
-                  <select {...register('howHeard', {required:true})} className="input">
+                  <select {...register('sourceCode', {required:true})} className="input">
                     <option value="facebook">Facebook</option>
                     <option value="instagram">Instagram</option>
                     <option value="casa_oracion">Casa de oración</option>
@@ -120,10 +120,10 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
                   </select>
                 </div>
 
-                {howHeard === 'otro' && (
+                {sourceCode === 'otro' && (
                   <div>
                     <label className="label">Especifica</label>
-                    <input {...register('howHeardOther')} className="input" placeholder="¿Dónde lo viste?"/>
+                    <input {...register('sourceCodeOther')} className="input" placeholder="¿Dónde lo viste?"/>
                   </div>
                 )}
               </div>

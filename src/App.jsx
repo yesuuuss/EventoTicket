@@ -25,7 +25,7 @@ export default function App() {
 const submit = async (data) => {
 
   if (goesToChurch === 'si' && !data.churchName) return;
-  if (howHeard === 'otro' && !data.howHeardOther) return;
+  if (sourceCode === 'otro' && !data.sourceCodeOther) return;
   if (isTeam === 'si' && (!data.teamAreas || data.teamAreas.length === 0)) return;
 
   const apiUrl = import.meta.env.VITE_API_URL; 
@@ -34,7 +34,7 @@ const submit = async (data) => {
   const payload = { 
     ...data, 
     nombre: data.fullName,  
-    sourceCode: data.howHeard || "facebook",  
+    sourceCode: data.sourceCode || "facebook",  
     eventId: event.id 
   };
 
