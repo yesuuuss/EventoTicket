@@ -27,7 +27,7 @@ const submit = async (form) => {
 
   payload.nombre = payload.fullName;
   delete payload.fullName;
-
+ 
   if (!payload.sourceCode) {
     payload.sourceCode = "facebook";  
   }
@@ -43,6 +43,7 @@ const submit = async (form) => {
   if (payload.goesToChurch === 'no') {
     delete payload.churchName;
   }
+  console.log("Payload antes de enviar:", payload);
 
   try {
     await registerAttendee(payload); 
