@@ -25,12 +25,26 @@ export default function App() {
 const submit = async (form) => {
   let payload = { ...form };
 
-  payload.nombre = payload.fullName;
-  delete payload.fullName;
- 
-  if (!payload.sourceCode) {
-    payload.sourceCode = "facebook";  
+
+  if (payload.fullName) {
+    payload.nombre = payload.fullName; 
+    delete payload.fullName;
   }
+
+
+  if (!payload.nombre) {
+    console.error('Falta el campo "nombre" en el payload');
+    alert('Por favor ingresa tu nombre.');
+    return;
+  }
+
+
+  if (!payload.sourceCode) {
+    console.error('Falta el campo "sourceCode" en el payload');
+    alert('Por favor selecciona cómo te enteraste del evento.');
+    payload.sourceCode = "facebook"; 
+  }
+
 
   if (!payload.asisteIglesia) {
     delete payload.iglesiaNombre;
@@ -43,9 +57,12 @@ const submit = async (form) => {
   if (payload.goesToChurch === 'no') {
     delete payload.churchName;
   }
+
+  
   console.log("Payload antes de enviar:", payload);
 
   try {
+   
     await registerAttendee(payload); 
     setToast("✅ Ticket enviado a tu correo.");
     setOpen(false);
@@ -55,6 +72,7 @@ const submit = async (form) => {
     setTimeout(() => setToast(null), 4000); 
   }
 };
+
 
 
   return (
