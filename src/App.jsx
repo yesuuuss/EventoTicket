@@ -25,9 +25,11 @@ export default function App() {
 const submit = async (form) => {
   let payload = { ...form };
 
- 
+  payload.nombre = payload.fullName;
+  delete payload.fullName;
+
   if (!payload.sourceCode) {
-    payload.sourceCode = "facebook"; 
+    payload.sourceCode = "facebook";  
   }
 
   if (!payload.asisteIglesia) {
