@@ -3,6 +3,7 @@ import EventCard from "./components/EventCard";
 import TicketModal from "./components/TicketModal";
 import { registerAttendee } from "./lib/api";
 
+
 export default function App() {
 
   const event = {

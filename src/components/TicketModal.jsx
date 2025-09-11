@@ -32,6 +32,7 @@ export default function TicketModal({ open, onClose, event, onSubmitForm }) {
         const responseData = await response.json();
         alert("Registro exitoso!");
         onSubmitForm({ ...data, eventId: event.id });
+         onClose();
       } else {
         alert("Hubo un problema al enviar los datos.");
       }
