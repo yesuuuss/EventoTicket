@@ -10,7 +10,7 @@ export default function App() {
     id: "congreso-leon-ruge-2025",
     title: "Congreso el León Ruge",
     poster: "/img/leon-ruge.jpg",   
-    dateLabel: "27 Sep • 19:30 hrs.",
+    dateLabel: "18 OCT Sep • 09:00 hrs.",
     venue: "Iglesia La casa de Elías internacional 1-83 5ta av. colonia cotio zona 2 mixco",
   };
 
